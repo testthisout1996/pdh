@@ -149,7 +149,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
   return (
     <section
       id="hero"
-      className="relative min-h-[100vh] flex flex-col justify-center overflow-hidden"
+      className="relative h-[100dvh] flex flex-col justify-center overflow-hidden"
     >
       <div className="absolute inset-0 z-0">
         <img src={heroBg} alt="" className="w-full h-full object-cover" />
@@ -158,21 +158,21 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
         <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
       </div>
 
-      <div className="container max-w-6xl mx-auto px-4 relative z-10 flex-1 flex flex-col justify-center pt-32 pb-20">
+      <div className="container max-w-6xl mx-auto px-4 relative z-10 flex-1 flex flex-col justify-center pt-24 pb-6 min-h-0">
         <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="text-white leading-[1.05] mb-6"
+            className="text-white leading-[1.05] mb-4"
           >
             <span
-              className="block uppercase tracking-tight text-6xl md:text-8xl lg:text-[8.5rem]"
+              className="block uppercase tracking-tight text-5xl md:text-7xl lg:text-[6.5rem]"
               style={{ fontFamily: "var(--font-anton)" }}
             >
               Dispensing made
             </span>
-            <span className="block italic font-light text-4xl md:text-6xl lg:text-7xl mt-2 text-white/95">
+            <span className="block italic font-light text-3xl md:text-5xl lg:text-6xl mt-1 text-white/95">
               calm and clever.
             </span>
           </motion.h1>
@@ -181,7 +181,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-lg md:text-xl text-white/80 mb-12 leading-relaxed max-w-xl mx-auto"
+            className="text-base md:text-lg text-white/80 mb-6 leading-relaxed max-w-xl mx-auto"
           >
             Pharmacy Hub gives community pharmacy staff a single home for the
             tools that actually save time at the bench.
@@ -194,13 +194,13 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
           >
             <Button
               size="lg"
-              className="rounded-full h-14 pl-2 pr-8 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-[hsl(260_40%_25%)] hover:bg-white/90 group"
+              className="rounded-full h-12 pl-2 pr-6 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-[hsl(260_40%_25%)] hover:bg-white/90 group"
               onClick={onExplore}
             >
-              <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
-                <Sparkles className="w-5 h-5 text-primary" />
+              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
+                <Sparkles className="w-4 h-4 text-primary" />
               </div>
-              <span className="text-base font-bold tracking-wide">
+              <span className="text-sm font-bold tracking-wide">
                 Explore the toolkit
               </span>
             </Button>
@@ -209,9 +209,9 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
       </div>
 
       {/* Logo Strip with side fades */}
-      <div className="relative z-10 w-full pb-8 pt-12 mt-auto border-t border-white/10 bg-gradient-to-t from-[#2c1b3d]/80 to-transparent">
+      <div className="relative z-10 w-full pb-5 pt-5 border-t border-white/10 bg-gradient-to-t from-[#2c1b3d]/80 to-transparent shrink-0">
         <div className="container max-w-6xl mx-auto px-4">
-          <p className="text-center text-[10px] font-bold tracking-widest uppercase text-white/60 mb-6">
+          <p className="text-center text-[10px] font-bold tracking-widest uppercase text-white/60 mb-3">
             Built with
           </p>
 
