@@ -215,12 +215,15 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
             Built with
           </p>
 
-          <div className="relative overflow-hidden">
-            {/* Left fade */}
-            <div className="pointer-events-none absolute inset-y-0 left-0 w-24 md:w-40 z-20 bg-gradient-to-r from-[#2c1b3d] via-[#2c1b3d]/80 to-transparent" />
-            {/* Right fade */}
-            <div className="pointer-events-none absolute inset-y-0 right-0 w-24 md:w-40 z-20 bg-gradient-to-l from-[#2c1b3d] via-[#2c1b3d]/80 to-transparent" />
-
+          <div
+            className="relative overflow-hidden"
+            style={{
+              WebkitMaskImage:
+                "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+              maskImage:
+                "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
+            }}
+          >
             <motion.div
               className="flex gap-16 md:gap-24 items-center whitespace-nowrap px-8"
               animate={{ x: ["0%", "-50%"] }}
