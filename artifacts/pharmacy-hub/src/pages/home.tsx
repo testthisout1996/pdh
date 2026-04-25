@@ -16,6 +16,9 @@ import {
   Clock, 
   Sparkles 
 } from "lucide-react";
+import { FaHtml5, FaCss3Alt, FaJs } from "react-icons/fa";
+import { SiBlender } from "react-icons/si";
+import heroBg from "@/assets/hero-bg.png";
 
 export default function Home() {
   return (
@@ -24,43 +27,114 @@ export default function Home() {
 
       <main className="flex-1">
         {/* HERO SECTION */}
-        <section id="hero" className="relative pt-32 pb-20 md:pt-48 md:pb-32 overflow-hidden">
-          {/* Decorative background blobs */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[500px] bg-primary/10 rounded-full blur-3xl opacity-60 pointer-events-none" />
-          <div className="absolute top-40 -right-20 w-[400px] h-[400px] bg-accent/20 rounded-full blur-3xl opacity-60 pointer-events-none" />
-          <div className="absolute top-20 -left-20 w-[300px] h-[300px] bg-secondary/15 rounded-full blur-3xl opacity-60 pointer-events-none" />
+        <section id="hero" className="relative min-h-[90vh] flex flex-col justify-center overflow-hidden">
+          {/* Background Image */}
+          <div className="absolute inset-0 z-0">
+            <img 
+              src={heroBg} 
+              alt="" 
+              className="w-full h-full object-cover"
+            />
+            {/* Gradient Overlay */}
+            <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#2c1b3d]/90 mix-blend-multiply" />
+            <div className="absolute inset-0 bg-[#2c1b3d]/40" />
+            <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
+          </div>
 
-          <div className="container max-w-6xl mx-auto px-4 relative z-10 text-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, ease: "easeOut" }}
-              className="max-w-3xl mx-auto"
-            >
-              <Badge variant="secondary" className="mb-6 rounded-full px-4 py-1.5 text-sm bg-white shadow-sm border-border text-foreground gap-2">
-                <Sparkles className="w-4 h-4 text-primary" />
-                The modern dispensary command-center
-              </Badge>
-              <h1 className="text-5xl md:text-7xl font-display font-bold tracking-tight text-foreground leading-tight mb-6">
-                Organize your bench. <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary via-secondary to-accent">
-                  Speed up dispensing.
-                </span>
-              </h1>
-              <p className="text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto">
-                Pharmacy Hub replaces clunky software and photocopied slips with beautiful, fast tools designed specifically for UK community pharmacy staff.
-              </p>
+          <div className="container max-w-6xl mx-auto px-4 relative z-10 flex-1 flex flex-col justify-center pt-32 pb-20">
+            <div className="max-w-4xl mx-auto text-center flex flex-col items-center">
+              <motion.h1 
+                initial={{ opacity: 0, y: 30 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                className="text-5xl md:text-7xl lg:text-8xl font-[family-name:var(--font-serif-display)] font-medium tracking-tight text-white leading-[1.1] mb-6"
+              >
+                Dispensing made <br />
+                <span className="italic text-primary-foreground/90">calm and clever.</span>
+              </motion.h1>
               
-              <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-                <Button size="lg" className="rounded-full px-8 shadow-lg shadow-primary/20 gap-2 w-full sm:w-auto text-base" onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })}>
-                  Explore Tools
-                  <ArrowRight className="w-4 h-4" />
+              <motion.p 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                className="text-lg md:text-xl text-white/80 mb-12 leading-relaxed max-w-xl mx-auto"
+              >
+                Pharmacy Hub gives community pharmacy staff a single home for the tools that actually save time at the bench.
+              </motion.p>
+              
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.8, delay: 0.4, ease: [0.16, 1, 0.3, 1] }}
+              >
+                <Button 
+                  size="lg" 
+                  className="rounded-full h-14 pl-2 pr-8 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-[hsl(260_40%_25%)] hover:bg-white/90 group"
+                  onClick={() => document.getElementById('tools')?.scrollIntoView({ behavior: 'smooth' })}
+                >
+                  <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
+                    <Sparkles className="w-5 h-5 text-primary" />
+                  </div>
+                  <span className="text-base font-bold tracking-wide">Explore the toolkit</span>
                 </Button>
-                <Button size="lg" variant="outline" className="rounded-full px-8 w-full sm:w-auto text-base bg-white/50 backdrop-blur-sm" onClick={() => document.getElementById('faq')?.scrollIntoView({ behavior: 'smooth' })}>
-                  How it works
-                </Button>
+              </motion.div>
+            </div>
+          </div>
+
+          {/* Logo Strip */}
+          <div className="relative z-10 w-full pb-8 pt-12 mt-auto border-t border-white/10 bg-gradient-to-t from-[#2c1b3d]/80 to-transparent">
+            <div className="container max-w-6xl mx-auto px-4">
+              <p className="text-center text-[10px] font-bold tracking-widest uppercase text-white/60 mb-6">
+                Built with
+              </p>
+              <div className="relative flex overflow-hidden group">
+                <motion.div 
+                  className="flex gap-16 md:gap-24 items-center whitespace-nowrap px-8"
+                  animate={{ x: ["0%", "-50%"] }}
+                  transition={{ 
+                    duration: 20, 
+                    ease: "linear", 
+                    repeat: Infinity,
+                  }}
+                >
+                  {/* First set */}
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaHtml5 className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">HTML5</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaCss3Alt className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">CSS3</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaJs className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">JavaScript</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <SiBlender className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">Blender</span>
+                  </div>
+                  
+                  {/* Second set for infinite scroll */}
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaHtml5 className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">HTML5</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaCss3Alt className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">CSS3</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <FaJs className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">JavaScript</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-white/80 hover:text-white transition-colors">
+                    <SiBlender className="w-6 h-6" />
+                    <span className="font-display font-semibold tracking-wider">Blender</span>
+                  </div>
+                </motion.div>
               </div>
-            </motion.div>
+            </div>
           </div>
         </section>
 
