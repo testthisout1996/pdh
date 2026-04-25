@@ -1,5 +1,7 @@
 import * as React from "react";
 import { Link } from "wouter";
+import { motion } from "framer-motion";
+import heroBg from "@/assets/hero-bg.png";
 import {
   Cross,
   Menu,
@@ -37,17 +39,32 @@ function Logo({ onNavigate }: { onNavigate: (section: ActiveSection) => void }) 
     <button
       type="button"
       onClick={() => onNavigate("hero")}
-      className="flex items-center gap-3 group shrink-0 text-left"
+      className="relative flex items-center group shrink-0 text-left"
+      aria-label="Pharmacy Dispensing Hub home"
     >
-      <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center shadow-sm group-hover:shadow-md transition-all duration-300">
-        <Cross className="w-5 h-5 text-white" />
-      </div>
-      <div className="flex flex-col justify-center">
-        <span className="font-semibold text-sm leading-none tracking-tight text-foreground">
-          Pharmacy Hub
-        </span>
-        <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-medium mt-0.5">
-          Dispensary Tools Suite
+      <span
+        className="text-4xl md:text-5xl leading-none tracking-tight select-none"
+        style={{
+          fontFamily: "var(--font-anton)",
+          backgroundImage: `url(${heroBg})`,
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+          WebkitBackgroundClip: "text",
+          backgroundClip: "text",
+          color: "transparent",
+          WebkitTextFillColor: "transparent",
+        }}
+      >
+        PDH
+      </span>
+      <div
+        className="absolute left-full top-0 bottom-0 flex items-stretch gap-2 pl-3 pointer-events-none opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 ease-out"
+        aria-hidden="true"
+      >
+        <span className="w-px bg-foreground/70 self-stretch" />
+        <span className="flex flex-col justify-center text-foreground text-[0.95rem] font-semibold leading-[1.15] tracking-tight whitespace-nowrap">
+          <span>Pharmacy</span>
+          <span>Dispensing Hub</span>
         </span>
       </div>
     </button>
@@ -72,7 +89,7 @@ function NavLink({
     >
       {label}
       {isActive && (
-        <span className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-1.5 h-1.5 rounded-full bg-primary" />
+        <span className="absolute -bottom-2 left-0 right-0 h-0.5 bg-primary" />
       )}
     </button>
   );
@@ -90,9 +107,14 @@ export function Navbar({ active, onNavigate }: NavbarProps) {
   }, []);
 
   return (
-    <div className="fixed top-4 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none flex justify-center">
+    <motion.div
+      initial={{ y: -80, opacity: 0 }}
+      animate={{ y: 0, opacity: 1 }}
+      transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+      className="fixed top-4 left-0 right-0 z-50 px-4 md:px-6 pointer-events-none flex justify-center"
+    >
       <header
-        className={`pointer-events-auto w-full max-w-6xl rounded-2xl border bg-white transition-all duration-300 ${
+        className={`pointer-events-auto w-full max-w-6xl rounded-md border bg-white transition-all duration-300 ${
           scrolled
             ? "border-border/60 shadow-md shadow-black/5"
             : "border-border/30 shadow-sm"
@@ -200,11 +222,14 @@ export function Navbar({ active, onNavigate }: NavbarProps) {
           {/* Right Cluster */}
           <div className="hidden md:flex items-center gap-3 shrink-0">
             <button
-              onClick={() => onNavigate("report")}
-              className="flex items-center gap-3 bg-[hsl(260_40%_25%)] hover:bg-[hsl(260_40%_20%)] text-white pl-5 pr-1.5 py-1.5 rounded-full transition-colors text-xs font-bold tracking-wider"
+              type="button"
+              disabled
+              aria-disabled="true"
+              title="Reporting is currently unavailable"
+              className="flex items-center gap-3 bg-[hsl(260_40%_25%)] text-white pl-5 pr-1.5 py-1.5 rounded-md text-xs font-bold tracking-wider opacity-50 cursor-not-allowed"
             >
               REPORT AN ISSUE
-              <div className="w-7 h-7 rounded-full bg-white text-[hsl(260_40%_25%)] flex items-center justify-center shrink-0">
+              <div className="w-7 h-7 rounded-sm bg-white/80 text-[hsl(260_40%_25%)] flex items-center justify-center shrink-0">
                 <ArrowRight className="w-3.5 h-3.5" />
               </div>
             </button>
@@ -217,7 +242,7 @@ export function Navbar({ active, onNavigate }: NavbarProps) {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="rounded-full w-10 h-10 hover:bg-muted"
+                  className="rounded-md w-10 h-10 hover:bg-muted"
                 >
                   <Menu className="w-5 h-5" />
                 </Button>
@@ -318,26 +343,27 @@ export function Navbar({ active, onNavigate }: NavbarProps) {
                   </SheetClose>
                 </div>
                 <div className="p-4 mt-auto border-t border-border/50">
-                  <SheetClose asChild>
-                    <button
-                      onClick={() => onNavigate("report")}
-                      className="flex w-full items-center justify-between bg-[hsl(260_40%_25%)] hover:bg-[hsl(260_40%_20%)] text-white pl-6 pr-2 py-2 rounded-full transition-colors text-sm font-bold tracking-wider"
-                    >
-                      <span className="flex items-center gap-2">
-                        <AlertTriangle className="w-4 h-4" />
-                        REPORT AN ISSUE
-                      </span>
-                      <div className="w-8 h-8 rounded-full bg-white text-[hsl(260_40%_25%)] flex items-center justify-center shrink-0">
-                        <ArrowRight className="w-4 h-4" />
-                      </div>
-                    </button>
-                  </SheetClose>
+                  <button
+                    type="button"
+                    disabled
+                    aria-disabled="true"
+                    title="Reporting is currently unavailable"
+                    className="flex w-full items-center justify-between bg-[hsl(260_40%_25%)] text-white pl-6 pr-2 py-2 rounded-md text-sm font-bold tracking-wider opacity-50 cursor-not-allowed"
+                  >
+                    <span className="flex items-center gap-2">
+                      <AlertTriangle className="w-4 h-4" />
+                      REPORT AN ISSUE
+                    </span>
+                    <div className="w-8 h-8 rounded-sm bg-white/80 text-[hsl(260_40%_25%)] flex items-center justify-center shrink-0">
+                      <ArrowRight className="w-4 h-4" />
+                    </div>
+                  </button>
                 </div>
               </SheetContent>
             </Sheet>
           </div>
         </div>
       </header>
-    </div>
+    </motion.div>
   );
 }

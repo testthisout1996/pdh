@@ -40,9 +40,12 @@ import {
   Send,
   ArrowLeft,
 } from "lucide-react";
-import { FaHtml5, FaCss3Alt, FaJs } from "react-icons/fa";
-import { SiBlender } from "react-icons/si";
 import heroBg from "@/assets/hero-bg.png";
+import html5Logo from "@/assets/logos/html5.svg";
+import css3Logo from "@/assets/logos/css3.svg";
+import jsLogo from "@/assets/logos/javascript.svg";
+import blenderLogo from "@/assets/logos/blender.svg";
+import replitLogo from "@/assets/logos/replit.svg";
 
 const sectionVariants = {
   initial: { opacity: 0, y: 16 },
@@ -145,6 +148,90 @@ export default function Home() {
 
 /* ─────────────────────────── HERO ─────────────────────────── */
 
+function Typewriter({
+  phrases,
+  typeSpeed = 70,
+  deleteSpeed = 35,
+  pauseAfterTyping = 1400,
+  pauseAfterDeleting = 300,
+}: {
+  phrases: string[];
+  typeSpeed?: number;
+  deleteSpeed?: number;
+  pauseAfterTyping?: number;
+  pauseAfterDeleting?: number;
+}) {
+  const [index, setIndex] = React.useState(0);
+  const [text, setText] = React.useState("");
+  const [phase, setPhase] = React.useState<"typing" | "pausing" | "deleting">(
+    "typing",
+  );
+
+  React.useEffect(() => {
+    const current = phrases[index];
+    let timeout: ReturnType<typeof setTimeout>;
+
+    if (phase === "typing") {
+      if (text.length < current.length) {
+        timeout = setTimeout(
+          () => setText(current.slice(0, text.length + 1)),
+          typeSpeed,
+        );
+      } else {
+        timeout = setTimeout(() => setPhase("deleting"), pauseAfterTyping);
+      }
+    } else if (phase === "deleting") {
+      if (text.length > 0) {
+        timeout = setTimeout(
+          () => setText(current.slice(0, text.length - 1)),
+          deleteSpeed,
+        );
+      } else {
+        timeout = setTimeout(() => {
+          setIndex((i) => (i + 1) % phrases.length);
+          setPhase("typing");
+        }, pauseAfterDeleting);
+      }
+    }
+
+    return () => clearTimeout(timeout);
+  }, [
+    text,
+    phase,
+    index,
+    phrases,
+    typeSpeed,
+    deleteSpeed,
+    pauseAfterTyping,
+    pauseAfterDeleting,
+  ]);
+
+  const widest = phrases.reduce((a, b) => (a.length >= b.length ? a : b), "");
+
+  return (
+    <span className="relative inline-block align-baseline whitespace-nowrap text-left">
+      <span
+        className="invisible italic font-light"
+        style={{ fontFamily: "'Bodoni MT', 'Bodoni Moda', 'Didot', serif" }}
+        aria-hidden="true"
+      >
+        {widest}
+      </span>
+      <span
+        className="absolute inset-y-0 left-0 italic font-light text-white/95"
+        style={{ fontFamily: "'Bodoni MT', 'Bodoni Moda', 'Didot', serif" }}
+      >
+        {text}
+        <span
+          className="inline-block w-[2px] h-[1em] align-[-0.15em] ml-0.5 bg-white/80 animate-pulse not-italic font-normal"
+          style={{ fontFamily: "inherit" }}
+          aria-hidden="true"
+        />
+      </span>
+    </span>
+  );
+}
+
 function HeroSection({ onExplore }: { onExplore: () => void }) {
   return (
     <section
@@ -173,7 +260,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
               Dispensing made
             </span>
             <span className="block italic font-light text-3xl md:text-5xl lg:text-6xl mt-1 text-white/95">
-              calm and clever.
+              seamless and smarter
             </span>
           </motion.h1>
 
@@ -181,10 +268,19 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-            className="text-base md:text-lg text-white/80 mb-6 leading-relaxed max-w-xl mx-auto"
+            className="text-base md:text-lg text-white/80 mb-6 leading-relaxed max-w-3xl mx-auto"
           >
-            Pharmacy Hub gives community pharmacy staff a single home for the
-            tools that actually save time at the bench.
+            Streamlining everyday tasks by bringing essential tools into one
+            fast, intuitive workspace, helping staff work more efficiently and
+            with greater confidence. Improving pharmacy workflows using tools
+            such as{" "}
+            <Typewriter
+              phrases={[
+                "Patient Information Leaflet Printer",
+                "Prednisolone Reducing Regimen Calculator",
+                "To-Follow Slip Generator",
+              ]}
+            />
           </motion.p>
 
           <motion.div
@@ -194,10 +290,10 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
           >
             <Button
               size="lg"
-              className="rounded-full h-12 pl-2 pr-6 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-[hsl(260_40%_25%)] hover:bg-white/90 group"
+              className="rounded-md h-12 pl-2 pr-6 shadow-xl hover:shadow-2xl transition-all duration-300 bg-white text-[hsl(260_40%_25%)] hover:bg-white/90 group"
               onClick={onExplore}
             >
-              <div className="w-9 h-9 rounded-full bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
+              <div className="w-9 h-9 rounded-sm bg-primary/10 flex items-center justify-center mr-3 group-hover:bg-primary/20 transition-colors">
                 <Sparkles className="w-4 h-4 text-primary" />
               </div>
               <span className="text-sm font-bold tracking-wide">
@@ -216,7 +312,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
           </p>
 
           <div
-            className="relative overflow-hidden"
+            className="marquee-container relative overflow-hidden"
             style={{
               WebkitMaskImage:
                 "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
@@ -224,38 +320,54 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
                 "linear-gradient(to right, transparent 0%, black 18%, black 82%, transparent 100%)",
             }}
           >
-            <motion.div
-              className="flex gap-16 md:gap-24 items-center whitespace-nowrap px-8"
-              animate={{ x: ["0%", "-50%"] }}
-              transition={{
-                duration: 20,
-                ease: "linear",
-                repeat: Infinity,
-              }}
-            >
+            <div className="marquee-track flex gap-16 md:gap-24 items-center whitespace-nowrap px-8 w-max">
               {[0, 1].map((set) => (
                 <React.Fragment key={set}>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <FaHtml5 className="w-6 h-6" />
+                  <div className="marquee-item group flex items-center gap-3 text-white/80 cursor-default">
+                    <img
+                      src={html5Logo}
+                      alt="HTML5"
+                      className="w-8 h-8 transition-all duration-300 grayscale brightness-[2] opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                    />
                     <span className="font-semibold tracking-wider">HTML5</span>
                   </div>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <FaCss3Alt className="w-6 h-6" />
+                  <div className="marquee-item group flex items-center gap-3 text-white/80 cursor-default">
+                    <img
+                      src={css3Logo}
+                      alt="CSS3"
+                      className="w-8 h-8 transition-all duration-300 grayscale brightness-[2] opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                    />
                     <span className="font-semibold tracking-wider">CSS3</span>
                   </div>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <FaJs className="w-6 h-6" />
+                  <div className="marquee-item group flex items-center gap-3 text-white/80 cursor-default">
+                    <img
+                      src={jsLogo}
+                      alt="JavaScript"
+                      className="w-8 h-8 transition-all duration-300 grayscale brightness-[2] opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                    />
                     <span className="font-semibold tracking-wider">
                       JavaScript
                     </span>
                   </div>
-                  <div className="flex items-center gap-3 text-white/80">
-                    <SiBlender className="w-6 h-6" />
+                  <div className="marquee-item group flex items-center gap-3 text-white/80 cursor-default">
+                    <img
+                      src={blenderLogo}
+                      alt="Blender"
+                      className="w-8 h-8 transition-all duration-300 grayscale brightness-[2] opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                    />
                     <span className="font-semibold tracking-wider">Blender</span>
+                  </div>
+                  <div className="marquee-item group flex items-center gap-3 text-white/80 cursor-default">
+                    <img
+                      src={replitLogo}
+                      alt="Replit"
+                      className="w-8 h-8 transition-all duration-300 grayscale brightness-[2] opacity-80 group-hover:grayscale-0 group-hover:brightness-100 group-hover:opacity-100"
+                    />
+                    <span className="font-semibold tracking-wider">Replit</span>
                   </div>
                 </React.Fragment>
               ))}
-            </motion.div>
+            </div>
           </div>
         </div>
       </div>
