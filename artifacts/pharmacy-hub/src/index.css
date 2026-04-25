@@ -1,10 +1,9 @@
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Manrope:wght@200;300;400;500;600;700;800&display=swap');
 @import "tailwindcss";
 @import "tw-animate-css";
 @plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
-
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300..900&family=Outfit:wght@300;400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 
 @theme inline {
   --color-background: hsl(var(--background));
@@ -129,11 +128,11 @@
   --chart-4: 40 80% 75%;
   --chart-5: 160 50% 75%;
 
-  --app-font-sans: 'Plus Jakarta Sans', sans-serif;
-  --app-font-serif: Georgia, serif;
+  --app-font-sans: 'Manrope', sans-serif;
+  --app-font-serif: 'Manrope', sans-serif;
   --app-font-mono: Menlo, monospace;
-  --font-display: 'Outfit', sans-serif;
-  --font-serif-display: 'Fraunces', serif;
+  --font-display: 'Manrope', sans-serif;
+  --font-anton: 'Anton', sans-serif;
 
   --radius: 1rem;
   
