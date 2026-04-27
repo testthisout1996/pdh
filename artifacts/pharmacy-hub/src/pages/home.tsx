@@ -240,13 +240,21 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
       className="relative h-[100dvh] flex flex-col justify-center overflow-hidden"
     >
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <div
-          className="absolute inset-0"
+        <motion.div
+          className="absolute inset-0 will-change-transform"
+          initial={{ scale: 1.1, x: "-1%", y: "-0.5%" }}
+          animate={{ scale: 1.22, x: "1%", y: "0.5%" }}
+          transition={{
+            duration: 60,
+            ease: [0.45, 0, 0.55, 1],
+            repeat: Infinity,
+            repeatType: "mirror",
+          }}
           style={{ filter: "blur(2.5px) saturate(1.05)" }}
         >
           <video
             ref={(el) => {
-              if (el) el.playbackRate = 0.8;
+              if (el) el.playbackRate = 0.64;
             }}
             src={heroVideo}
             poster={heroBg}
@@ -258,7 +266,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
             aria-hidden="true"
             className="w-full h-full object-cover scale-[1.04]"
           />
-        </div>
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#2c1b3d]/90 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[#2c1b3d]/40" />
         <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
