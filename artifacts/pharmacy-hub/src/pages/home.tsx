@@ -252,19 +252,27 @@ function HeroVideoCarousel() {
   }, []);
 
   React.useEffect(() => {
-    refs.current.forEach((v, i) => {
-      if (!v) return;
-      v.playbackRate = HERO_PLAYBACK_RATE;
-      if (i === activeIdx) {
-        const remaining = (v.duration || Infinity) - v.currentTime;
-        if (Number.isFinite(v.duration) && remaining < HERO_SWITCH_MS / 1000) {
-          v.currentTime = 0;
-        }
-        v.play().catch(() => {});
-      } else {
-        v.pause();
+    const incoming = refs.current[activeIdx];
+    if (incoming) {
+      incoming.playbackRate = HERO_PLAYBACK_RATE;
+      const remaining =
+        (incoming.duration || Infinity) - incoming.currentTime;
+      if (
+        Number.isFinite(incoming.duration) &&
+        remaining < HERO_SWITCH_MS / 1000
+      ) {
+        incoming.currentTime = 0;
       }
-    });
+      incoming.play().catch(() => {});
+    }
+    // Defer pausing the outgoing videos until after the crossfade completes,
+    // so the frozen frame is never visible behind the fade.
+    const t = setTimeout(() => {
+      refs.current.forEach((v, i) => {
+        if (v && i !== activeIdx) v.pause();
+      });
+    }, HERO_FADE_MS);
+    return () => clearTimeout(t);
   }, [activeIdx]);
 
   return (
