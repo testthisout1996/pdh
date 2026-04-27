@@ -41,7 +41,14 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png";
-const heroVideo = `${import.meta.env.BASE_URL}media/hero-bg.mp4`;
+const HERO_VIDEOS = [
+  `${import.meta.env.BASE_URL}media/hero-bg.mp4`,
+  `${import.meta.env.BASE_URL}media/hero-bg-2.mp4`,
+  `${import.meta.env.BASE_URL}media/hero-bg-3.mp4`,
+];
+const HERO_SWITCH_MS = 6000;
+const HERO_FADE_MS = 900;
+const HERO_PLAYBACK_RATE = 0.64;
 import html5Logo from "@/assets/logos/html5.svg";
 import css3Logo from "@/assets/logos/css3.svg";
 import jsLogo from "@/assets/logos/javascript.svg";
@@ -233,6 +240,60 @@ function Typewriter({
   );
 }
 
+function HeroVideoCarousel() {
+  const [activeIdx, setActiveIdx] = React.useState(0);
+  const refs = React.useRef<(HTMLVideoElement | null)[]>([]);
+
+  React.useEffect(() => {
+    const id = setInterval(() => {
+      setActiveIdx((i) => (i + 1) % HERO_VIDEOS.length);
+    }, HERO_SWITCH_MS);
+    return () => clearInterval(id);
+  }, []);
+
+  React.useEffect(() => {
+    refs.current.forEach((v, i) => {
+      if (!v) return;
+      v.playbackRate = HERO_PLAYBACK_RATE;
+      if (i === activeIdx) {
+        const remaining = (v.duration || Infinity) - v.currentTime;
+        if (Number.isFinite(v.duration) && remaining < HERO_SWITCH_MS / 1000) {
+          v.currentTime = 0;
+        }
+        v.play().catch(() => {});
+      } else {
+        v.pause();
+      }
+    });
+  }, [activeIdx]);
+
+  return (
+    <>
+      {HERO_VIDEOS.map((src, i) => (
+        <video
+          key={src}
+          ref={(el) => {
+            refs.current[i] = el;
+          }}
+          src={src}
+          poster={heroBg}
+          autoPlay={i === 0}
+          loop
+          muted
+          playsInline
+          preload="auto"
+          aria-hidden="true"
+          className="absolute inset-0 w-full h-full object-cover scale-[1.04]"
+          style={{
+            opacity: i === activeIdx ? 1 : 0,
+            transition: `opacity ${HERO_FADE_MS}ms ease-in-out`,
+          }}
+        />
+      ))}
+    </>
+  );
+}
+
 function HeroSection({ onExplore }: { onExplore: () => void }) {
   return (
     <section
@@ -244,20 +305,7 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
           className="absolute inset-0"
           style={{ filter: "blur(2.5px) saturate(1.05)" }}
         >
-          <video
-            ref={(el) => {
-              if (el) el.playbackRate = 0.64;
-            }}
-            src={heroVideo}
-            poster={heroBg}
-            autoPlay
-            loop
-            muted
-            playsInline
-            preload="auto"
-            aria-hidden="true"
-            className="w-full h-full object-cover scale-[1.04]"
-          />
+          <HeroVideoCarousel />
         </div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#2c1b3d]/90 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[#2c1b3d]/40" />
