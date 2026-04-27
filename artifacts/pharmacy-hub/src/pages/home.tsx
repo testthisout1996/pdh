@@ -257,6 +257,9 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
           style={{ filter: "blur(2.5px) saturate(1.05)" }}
         >
           <video
+            ref={(el) => {
+              if (el) el.playbackRate = 0.8;
+            }}
             src={heroVideo}
             poster={heroBg}
             autoPlay
