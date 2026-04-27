@@ -41,6 +41,7 @@ import {
   ArrowLeft,
 } from "lucide-react";
 import heroBg from "@/assets/hero-bg.png";
+const heroVideo = `${import.meta.env.BASE_URL}media/hero-bg.mp4`;
 import html5Logo from "@/assets/logos/html5.svg";
 import css3Logo from "@/assets/logos/css3.svg";
 import jsLogo from "@/assets/logos/javascript.svg";
@@ -238,8 +239,35 @@ function HeroSection({ onExplore }: { onExplore: () => void }) {
       id="hero"
       className="relative h-[100dvh] flex flex-col justify-center overflow-hidden"
     >
-      <div className="absolute inset-0 z-0">
-        <img src={heroBg} alt="" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 z-0 overflow-hidden">
+        <motion.div
+          className="absolute inset-0 will-change-transform"
+          initial={{ scale: 1.12, x: "-1.5%", y: "-1%" }}
+          animate={{
+            scale: [1.12, 1.22, 1.14, 1.2, 1.12],
+            x: ["-1.5%", "1.5%", "2%", "-1%", "-1.5%"],
+            y: ["-1%", "1%", "-1.5%", "1.5%", "-1%"],
+          }}
+          transition={{
+            duration: 38,
+            ease: "easeInOut",
+            repeat: Infinity,
+            repeatType: "mirror",
+          }}
+          style={{ filter: "blur(2.5px) saturate(1.05)" }}
+        >
+          <video
+            src={heroVideo}
+            poster={heroBg}
+            autoPlay
+            loop
+            muted
+            playsInline
+            preload="auto"
+            aria-hidden="true"
+            className="w-full h-full object-cover scale-[1.04]"
+          />
+        </motion.div>
         <div className="absolute inset-0 bg-gradient-to-b from-black/20 via-black/40 to-[#2c1b3d]/90 mix-blend-multiply" />
         <div className="absolute inset-0 bg-[#2c1b3d]/40" />
         <div className="absolute inset-0 shadow-[inset_0_0_100px_rgba(0,0,0,0.5)]" />
